@@ -23,6 +23,6 @@ class DbMongo:
         print(uri)
         
         client = pymongo.MongoClient(uri)
-        db = client[os.environp['DB']]
+        db = client[os.environ['DB']]
 
         return client, db
