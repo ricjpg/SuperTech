@@ -1,4 +1,5 @@
 from classes.DbMongo import DbMongo
+from classes.Product import Product
 
 class Store:
 

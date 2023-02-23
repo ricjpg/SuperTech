@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 def main():
     client, db = DbMongo.getDB()
 
-    Product("doritos","90").save(db)
+    Product("Lays","110").save(db)
 
 
     client.close()
