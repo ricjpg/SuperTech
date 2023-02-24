@@ -41,4 +41,14 @@ class Category:
         for c in list_c:
             c.delete(db)
 
+    @staticmethod
+    def get_dict(db):
+        collection = db["Category"]
+        types = collection.find()
+
+        dict_types_categories = {}
+        for c in types:
+            dict_types_categories[c["category"]] = c["_id"]
+        return dict_types_categories
+        
     

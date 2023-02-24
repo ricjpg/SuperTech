@@ -30,12 +30,16 @@ class Product:
 
         list_products = []
         for p in products:
-            temp_products = Products(p["products"],p["_id"])
+            temp_products = Product(
+                p["name"],
+                p["quantity"],
+                p["category"],
+                p["_id"])
             list_products.append(temp_products)
         return list_products
 
     @staticmethod
     def delete_all(db):
-        list_p = Products.get_list(db)
+        list_p = Product.get_list(db)
         for p in list_p:
             p.delete(db)

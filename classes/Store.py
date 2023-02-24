@@ -32,7 +32,10 @@ class Store:
 
         list_store = []
         for s in store:
-            temp_store = Store(s["category"],s["_id"])
+            temp_store = Store(
+                s["name"],
+                s["category"],
+                s["_id"])
             list_store.append(temp_store)
         return list_store
 
@@ -41,3 +44,14 @@ class Store:
         list_s = Store.get_list(db)
         for s in list_s:
             s.delete(db)
+
+    @staticmethod
+    def get_dict(db):
+        collection = db["Store"]
+        types = collection.find()
+
+        dict_types_store = {}
+        for s in types:
+            dict_types_store[s["name"]] = s["_id"]
+        return dict_types_store
+        
