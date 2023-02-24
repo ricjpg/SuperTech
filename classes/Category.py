@@ -22,3 +22,23 @@ class Category:
         collection = db[self.__collection]
         filterToUse = {'_id':self.__id}
         collection.delete_one(filterToUse)
+
+
+    @staticmethod
+    def get_list(db):
+        collection = db["Category"]
+        categories = collection.find()
+
+        list_categories = []
+        for c in categories:
+            temp_category = Category(c["category"],c["_id"])
+            list_categories.append(temp_category)
+        return list_categories
+
+    @staticmethod
+    def delete_all(db):
+        list_c = Category.get_list(db)
+        for c in list_c:
+            c.delete(db)
+
+    

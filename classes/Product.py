@@ -1,9 +1,9 @@
-from classes.Methods import Methods
 class Product:
 
-    def __init__(self, name, quantity, id = ""):
+    def __init__(self, name, quantity, category, id = ""):
         self.name = name
         self.quantity = quantity
+        self.category = category
         self.__id = id
         self.__collection = "Product"
 
@@ -22,3 +22,20 @@ class Product:
         collection = db[self.__collection]
         filterToUse = {'_id':self.__id}
         collection.delete_one(filterToUse)
+
+    @staticmethod
+    def get_list(db):
+        collection = db["Product"]
+        products = collection.find()
+
+        list_products = []
+        for p in products:
+            temp_products = Products(p["products"],p["_id"])
+            list_products.append(temp_products)
+        return list_products
+
+    @staticmethod
+    def delete_all(db):
+        list_p = Products.get_list(db)
+        for p in list_p:
+            p.delete(db)

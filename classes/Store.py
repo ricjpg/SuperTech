@@ -24,3 +24,20 @@ class Store:
         collection = db[self.__collection]
         filterToUse = {'_id':self.__id}
         collection.delete_one(filterToUse)
+
+    @staticmethod
+    def get_list(db):
+        collection = db["Store"]
+        store = collection.find()
+
+        list_store = []
+        for s in store:
+            temp_store = Store(s["category"],s["_id"])
+            list_store.append(temp_store)
+        return list_store
+
+    @staticmethod
+    def delete_all(db):
+        list_s = Store.get_list(db)
+        for s in list_s:
+            s.delete(db)
