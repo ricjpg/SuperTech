@@ -1,3 +1,4 @@
+from classes.DbMongo import DbMongo
 from classes.Product import Product
 
 class Category:
@@ -52,3 +53,27 @@ class Category:
         return dict_types_categories
         
     
+    @staticmethod
+    def get_report(db):
+        collection = db["Category"]
+
+        result = collection.aggregate([
+            {
+                '$lookup':{
+                "from":"Product",
+                "localField":"name",
+                "foreignField":"product",
+                "as":"category"
+            }
+            },
+            {
+                '$project':{
+                    "name":1,
+                    "category":1,
+                    "_id":0
+                    }
+            }
+        ])
+        for s in result:
+            print(s)
+        

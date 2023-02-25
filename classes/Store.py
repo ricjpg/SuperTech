@@ -1,8 +1,10 @@
 from classes.DbMongo import DbMongo
 from classes.Product import Product
+from classes.Category import Category
+import pprint
 
 class Store:
-
+    printer = pprint.PrettyPrinter()
     def __init__(self, name, category, id = ""):
         self.name = name
         self.category = category
@@ -54,4 +56,34 @@ class Store:
         for s in types:
             dict_types_store[s["name"]] = s["_id"]
         return dict_types_store
+        
+    @staticmethod
+    def get_report(db):
+        collection = db["Store"]
+        printer = pprint.PrettyPrinter()
+        result = collection.aggregate([
+            {
+                '$lookup':{
+                "from":"Product",
+                "localField":"category",
+                "foreignField":"category",
+                "as":"cat"
+                }
+            },
+            {
+                '$project':{
+                    "name":1,
+                    "cat":1,
+                    # "cat":1,
+                    "Product.name":1,
+                    "Product.quantity":1,
+                    "Product.category":1,
+                    # "quantity":1,
+                    "_id":0,
+                    }
+            }
+        ])
+        for s in result:
+            # print(s)
+            printer.pprint(s)
         
